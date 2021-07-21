@@ -9,8 +9,18 @@ class Auth extends CI_Controller
         $this->load->library('form_validation');
     }
 
+    public function goToDefaultPage()
+    {
+        if ($this->session->userdata('role_id') == 1) {
+            redirect('admin');
+        } elseif ($this->session->userdata('role_id') > 1) {
+            redirect('user');
+        }
+    }
+
     public function index()
     {
+        $this->goToDefaultPage();
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
 
@@ -35,7 +45,7 @@ class Auth extends CI_Controller
         if ($user) {
             //jika usernya aktif
             if ($user['is_active'] == 1) {
-                //jika password salah
+                //cek password
                 if (password_verify($password, $user['password'])) {
                     $data = [
                         'email' => $user['email'],
@@ -63,6 +73,7 @@ class Auth extends CI_Controller
 
     public function registration()
     {
+        $this->goToDefaultPage();
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email]', [
             'is_unique' => 'This email has already registered'
@@ -102,5 +113,16 @@ class Auth extends CI_Controller
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">You have been logged out!</div>');
         redirect('auth');
+    }
+
+    public function blocked()
+    {
+        $data['title'] = 'Menu Management';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('auth/blocked');
+        $this->load->view('templates/footer');
     }
 }

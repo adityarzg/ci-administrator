@@ -13,6 +13,7 @@
                 <input type="hidden" name="id" value="<?= $menu['id']; ?>">
                 <div class="form-group">
                     <input type="text" class="form-control" id="menu" name="menu" placeholder="Menu name" value="<?= $menu['menu']; ?>">
+                    <small class="text-danger" style="font-style:italic"><?= form_error('menu') ?></small>
                 </div>
                 <a href="<?= base_url('menu'); ?>" type="button" class="btn btn-sm btn-secondary">Back</a>
                 <button type="submit" class="btn btn-sm btn-primary">Edit</button>

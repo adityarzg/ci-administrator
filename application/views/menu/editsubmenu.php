@@ -9,14 +9,12 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <?php if (validation_errors()) : ?>
-                <div class="alert alert-danger" role="alert"> <?= validation_errors() ?> </div>
-            <?php endif; ?>
             <?= $this->session->flashdata('message'); ?>
             <form action="" method="post">
                 <input type="hidden" name="id" value="<?= $subMenuById['id']; ?>">
                 <div class="form-group">
                     <input type="text" class="form-control" id="title" name="title" placeholder="Submenu title" value="<?= $subMenuById['title']; ?>">
+                    <small class="text-danger" style="font-style:italic"><?= form_error('title') ?></small>
                 </div>
                 <div class="form-group">
                     <select name="menu_id" id="menu_id" class="form-control">
@@ -26,12 +24,15 @@
                             <option value="<?= $m['id'] ?>"><?= $m['menu'] ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <small class="text-danger" style="font-style:italic"><?= form_error('menu') ?></small>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="url" name="url" placeholder="Submenu url" value="<?= $subMenuById['url'] ?>">
+                    <small class="text-danger" style="font-style:italic"><?= form_error('url') ?></small>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" id="icon" name="icon" placeholder="Submenu icon" value="<?= $subMenuById['icon'] ?>">
+                    <small class="text-danger" style="font-style:italic"><?= form_error('icon') ?></small>
                 </div>
                 <div class="form-group">
                     <div class="custom-control custom-checkbox">
